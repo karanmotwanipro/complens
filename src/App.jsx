@@ -234,6 +234,7 @@ function App() {
   showResults && effectiveIncomeB > effectiveIncomeA;
 
   const hoursSaved = Math.abs(yearlyCommuteHoursA - yearlyCommuteHoursB);
+  const careerYearsSaved = ((hoursSaved * 30) / 24 / 365).toFixed(1);
 
   return (
   <div style={{ fontFamily: "Arial", maxWidth: "1000px", margin: "0 auto", minHeight: "100vh" }}>
@@ -368,6 +369,10 @@ function App() {
 
     <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.6 }}>
       <i>Most people underestimate the life cost of commuting.</i>
+    </p>
+
+    <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.6 }}>
+      Over a 30-year career, that's about {careerYearsSaved} years of your life.
     </p>
 
   </div>

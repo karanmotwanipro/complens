@@ -261,12 +261,12 @@ function App() {
     </p>
 
     <h1 style={{
-    fontSize: "26px",
+    fontSize: "20px",
     fontWeight: "600",
     margin: 0,
     lineHeight: "1.4"
     }}>
-    Your commute might be stealing your life. Compare two job options and see how much time and real income commuting actually costs you.
+    Your commute might be stealing your life. <br />Compare two job options and see how much time and real income commuting actually costs you.
     </h1>
 
 

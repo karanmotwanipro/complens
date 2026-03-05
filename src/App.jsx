@@ -333,8 +333,14 @@ function App() {
   <div style={{ marginTop: "20px", textAlign: "center" }}>
     <p style={{ fontSize: "20px", fontWeight: "700" }}>
       {effectiveIncomeA > effectiveIncomeB
-        ? `Job A gives you $${incomeDelta.toFixed(0)} more real value per year`
-        : `Job B gives you $${incomeDelta.toFixed(0)} more real value per year`}
+        ? `💰 Job A gives you $${incomeDelta.toFixed(0)} more real income`
+        : `💰 Job B gives you $${incomeDelta.toFixed(0)} more real income`}
+    </p>
+
+    <p style={{ fontSize: "18px", marginTop: "10px" }}>
+      {yearlyCommuteHoursA < yearlyCommuteHoursB
+        ? `⏱ Job A gives you ${hoursSaved.toFixed(0)} hours of life back`
+        : `⏱ Job B gives you ${hoursSaved.toFixed(0)} hours of life back`}
     </p>
 
     <p style={{ opacity: 0.85, fontWeight: "500" }}>

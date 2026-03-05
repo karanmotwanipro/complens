@@ -58,7 +58,7 @@ function JobCard({
 
       <div style={{ flex: 1 }}>
         <label>
-        ⏱ Commute
+        ⏱ Daily commute time
         </label>
         <input style={{
         width: "100%",
@@ -83,7 +83,7 @@ function JobCard({
 
     <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
       <div style={{ flex: 1 }}>
-        <label>🏢 Days in office per week</label>
+        <label>🏢 Office days per week</label>
         <input
           type="range"
           min="0"
@@ -105,7 +105,7 @@ function JobCard({
       </div>
 
       <div style={{ flex: 1 }}>
-        <label>🚗 Direct cost</label>
+        <label>🚗 Daily commute spending (optional)</label>
         <input style={{
         width: "100%",
         padding: "6px",
@@ -122,15 +122,28 @@ function JobCard({
           }}
         />
         <small style={{ opacity: 0.6 }}>
-        Dollars per day
+        $ per day (gas, train, parking, Uber, etc.)
         </small>
       </div>
       </div>
 
-      <p>Yearly commute hours: {yearlyCommuteHours.toFixed(1)}</p>
-      <p>Full days lost per year: {daysLost.toFixed(1)}</p>
-      <p>Commute cost: ${commuteCost.toFixed(0)}</p>
-      <p>Effective income: ${effectiveIncome.toFixed(0)}</p>
+      <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
+        <p style={{ flex: 1 }}>
+          Yearly commute hours: {yearlyCommuteHours.toFixed(1)}
+        </p>
+        <p style={{ flex: 1 }}>
+          Days lost per year: {daysLost.toFixed(1)}
+        </p>
+      </div>
+
+      <div style={{ display: "flex", gap: "20px" }}>
+        <p style={{ flex: 1 }}>
+          Commute cost: ${commuteCost.toLocaleString()}
+        </p>
+        <p style={{ flex: 1 }}>
+          Effective income: ${effectiveIncome.toFixed(0)}
+        </p>
+      </div>
     </div>
   );
 }
@@ -248,17 +261,19 @@ function App() {
     </p>
 
     <h1 style={{
-    fontSize: "28px",
+    fontSize: "26px",
     fontWeight: "600",
-    margin: 0
+    margin: 0,
+    lineHeight: "1.4"
     }}>
-    Your commute might be stealing your life. Want to find out?
+    Your commute might be stealing your life. Compare two job options and see how much time and real income commuting actually costs you.
     </h1>
+
 
   <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", marginTop: "20px", textAlign: "left" }}>
 
     <JobCard
-    title="Job A"
+    title="Job Option A"
     salary={salary}
     setSalary={setSalary}
     commuteMinutes={commuteMinutes}
@@ -276,7 +291,7 @@ function App() {
     />
 
     <JobCard
-    title="Job B"
+    title="Job Option B"
     salary={salaryB}
     setSalary={setSalaryB}
     commuteMinutes={commuteMinutesB}
@@ -334,7 +349,11 @@ function App() {
 
 
 {showResults && winnerText && (
-  <div style={{ marginTop: "20px", textAlign: "center" }}>
+    <div style={{
+    marginTop: "16px",
+    textAlign: "center",
+    animation: "fadeIn 0.25s ease"
+  }}>
 
     <div style={{
       display: "flex",
@@ -347,32 +366,21 @@ function App() {
       
       <div>
         {effectiveIncomeA > effectiveIncomeB
-          ? `💰 Job A gives you $${incomeDelta.toFixed(0)} more real income`
-          : `💰 Job B gives you $${incomeDelta.toFixed(0)} more real income`}
+          ? `💰 Job A nets you $${incomeDelta.toLocaleString()} more per year`
+          : `💰 Job B nets you $${incomeDelta.toLocaleString()} more per year`}
       </div>
 
-      <div>
+      <div style={{ fontWeight: "700" }}>
         {yearlyCommuteHoursA < yearlyCommuteHoursB
-          ? `⏱ Job A gives you ${hoursSaved.toFixed(0)} hours of life back`
-          : `⏱ Job B gives you ${hoursSaved.toFixed(0)} hours of life back`}
+          ? `⏱ Job A gives you ${hoursSaved.toFixed(0)} hours of your life back`
+          : `⏱ Job B gives you ${hoursSaved.toFixed(0)} hours of your life back`}
       </div>
 
     </div>
 
-    <p style={{ marginTop: "10px", opacity: 0.85 }}>
-      That’s {(hoursSaved / 8).toFixed(0)} full days of your life back every year.
-    </p>
 
-    <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.75 }}>
-      Over a 40-year career, that's {((hoursSaved * 40) / 24).toFixed(0)} full days of your life.
-    </p>
-
-    <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.6 }}>
-      <i>Most people underestimate the life cost of commuting.</i>
-    </p>
-
-    <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.6 }}>
-      Over a 30-year career, that's about {careerYearsSaved} years of your life.
+    <p style={{ marginTop: "8px", fontSize: "14px", opacity: 0.7 }}>
+      <i>Over a 30-year career, that’s about {careerYearsSaved} years of your life.</i>
     </p>
 
   </div>

@@ -31,7 +31,7 @@ function JobCard({
         boxShadow: "0 6px 18px rgba(0,0,0,0.06)"
       }}
     >
-      <h2>{title}</h2>
+      <h2 style={{ margin: "0 0 8px 0" }}>{title}</h2>
 
       <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
       <div style={{ flex: 1 }}>
@@ -41,7 +41,8 @@ function JobCard({
         padding: "6px",
         borderRadius: "6px",
         border: "1px solid #374151",
-        outline: "none"
+        outline: "none",
+        boxSizing: "border-box"
         }}
           type="number"
           value={salary}
@@ -64,7 +65,8 @@ function JobCard({
         padding: "6px",
         borderRadius: "6px",
         border: "1px solid #374151",
-        outline: "none"
+        outline: "none",
+        boxSizing: "border-box"
         }}
           type="number"
           value={commuteMinutes}
@@ -109,7 +111,8 @@ function JobCard({
         padding: "6px",
         borderRadius: "6px",
         border: "1px solid #374151",
-        outline: "none"
+        outline: "none",
+        boxSizing: "border-box"
         }}
           type="number"
           value={dailyCost}
@@ -357,8 +360,14 @@ function App() {
 
     <p style={{ marginTop: "10px", opacity: 0.85 }}>
       That’s {(hoursSaved / 8).toFixed(0)} full days of your life back every year.
-      <br />
-      Most people underestimate commute impact by 3–5×.
+    </p>
+
+    <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.75 }}>
+      Over a 40-year career, that's {((hoursSaved * 40) / 24).toFixed(0)} full days of your life.
+    </p>
+
+    <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.6 }}>
+      <i>Most people underestimate the life cost of commuting.</i>
     </p>
 
   </div>

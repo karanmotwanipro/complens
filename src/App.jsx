@@ -248,7 +248,7 @@ function App() {
     fontWeight: "600",
     margin: 0
     }}>
-    Compare Job Offers Beyond Salary
+    Your commute might be stealing your life. Want to find out?
     </h1>
 
   <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", marginTop: "30px", textAlign: "left" }}>

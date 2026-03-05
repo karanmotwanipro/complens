@@ -23,11 +23,11 @@ function JobCard({
       style={{
         flex: "1 1 40%",
         minWidth: "300px",
-        padding: "16px",
+        padding: "12px",
         borderRadius: "12px",
         backgroundColor: "white",
         color: "#222",
-        border: isWinner ? "2px solid #22c55e" : "1px solid #e5e7eb",
+        border: "1px solid #e5e7eb",
         boxShadow: "0 6px 18px rgba(0,0,0,0.06)"
       }}
     >
@@ -251,7 +251,7 @@ function App() {
     Your commute might be stealing your life. Want to find out?
     </h1>
 
-  <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", marginTop: "30px", textAlign: "left" }}>
+  <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", marginTop: "20px", textAlign: "left" }}>
 
     <JobCard
     title="Job A"
@@ -301,8 +301,8 @@ function App() {
         borderRadius: "8px",
         border: "none",
         cursor: "pointer",
-        backgroundColor: "white",
-        color: "#1f2937",
+        backgroundColor: "#22c55e",
+        color: "white",
         fontWeight: "600",
       }}
     >
@@ -331,21 +331,35 @@ function App() {
 
 {showResults && winnerText && (
   <div style={{ marginTop: "20px", textAlign: "center" }}>
-    <p style={{ fontSize: "20px", fontWeight: "700" }}>
-      {effectiveIncomeA > effectiveIncomeB
-        ? `💰 Job A gives you $${incomeDelta.toFixed(0)} more real income`
-        : `💰 Job B gives you $${incomeDelta.toFixed(0)} more real income`}
+
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      gap: "40px",
+      flexWrap: "wrap",
+      fontSize: "18px",
+      fontWeight: "600"
+    }}>
+      
+      <div>
+        {effectiveIncomeA > effectiveIncomeB
+          ? `💰 Job A gives you $${incomeDelta.toFixed(0)} more real income`
+          : `💰 Job B gives you $${incomeDelta.toFixed(0)} more real income`}
+      </div>
+
+      <div>
+        {yearlyCommuteHoursA < yearlyCommuteHoursB
+          ? `⏱ Job A gives you ${hoursSaved.toFixed(0)} hours of life back`
+          : `⏱ Job B gives you ${hoursSaved.toFixed(0)} hours of life back`}
+      </div>
+
+    </div>
+
+    <p style={{ marginTop: "10px", opacity: 0.85 }}>
+      That’s {(hoursSaved / 8).toFixed(0)} full days of your life back every year.
     </p>
 
-    <p style={{ fontSize: "18px", marginTop: "10px" }}>
-      {yearlyCommuteHoursA < yearlyCommuteHoursB
-        ? `⏱ Job A gives you ${hoursSaved.toFixed(0)} hours of life back`
-        : `⏱ Job B gives you ${hoursSaved.toFixed(0)} hours of life back`}
-    </p>
-
-    <p style={{ opacity: 0.85, fontWeight: "500" }}>
-    That’s {(hoursSaved / 8).toFixed(0)} full days of your life back every year.
-    </p>
+  </div>
   </div>
 )}
 

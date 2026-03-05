@@ -357,6 +357,8 @@ function App() {
 
     <p style={{ marginTop: "10px", opacity: 0.85 }}>
       That’s {(hoursSaved / 8).toFixed(0)} full days of your life back every year.
+      <br />
+      Most people underestimate commute impact by 3–5×.
     </p>
 
   </div>

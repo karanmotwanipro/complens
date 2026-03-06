@@ -121,6 +121,9 @@ function JobCard({
             resetResults();
           }}
         />
+        <p style="font-size:12px; opacity:0.7; margin-top:6px;">
+        🔒 Your numbers stay in your browser. Nothing is stored.
+        </p>
         <small style={{ opacity: 0.6 }}>
         $ per day (gas, train, parking, Uber, etc.)
         </small>
@@ -247,7 +250,7 @@ function App() {
   showResults && effectiveIncomeB > effectiveIncomeA;
 
   const hoursSaved = Math.abs(yearlyCommuteHoursA - yearlyCommuteHoursB);
-  const careerYearsSaved = ((hoursSaved * 30) / 24 / 365).toFixed(1);
+  const careerMonthsSaved = Math.round((hoursSaved * 30) / 24 / 30);
 
   return (
   <div style={{ fontFamily: "Arial", maxWidth: "1000px", margin: "0 auto", minHeight: "100vh" }}>
@@ -379,8 +382,16 @@ function App() {
     </div>
 
 
-    <p style={{ marginTop: "8px", fontSize: "14px", opacity: 0.7 }}>
-      <i>Over a 30-year career, that’s about {careerYearsSaved} years of your life.</i>
+    <p style={{ marginTop: "8px", fontSize: "14px", opacity: 0.75 }}>
+      <i>Over a 30-year career, that's about {careerMonthsSaved} months of your life.</i>
+    </p>
+
+    <p style={{ marginTop: "6px", fontSize: "13px", opacity: 0.6 }}>
+      That’s time you could spend with family, health, hobbies — or simply not sitting in traffic.
+    </p>
+
+    <p style={{ marginTop: "10px", fontSize: "12px", opacity: 0.55 }}>
+      If this surprised you, send this tool to a friend who's choosing between jobs.
     </p>
 
   </div>

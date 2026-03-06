@@ -391,7 +391,7 @@ function App() {
     </p>
 
     <p style={{ marginTop: "10px", fontSize: "12px", opacity: 0.55 }}>
-      If this surprised you, send this tool to a friend who's choosing between jobs.
+      If this surprised you, send this to a friend choosing between jobs.
     </p>
 
   </div>

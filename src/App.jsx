@@ -121,7 +121,7 @@ function JobCard({
             resetResults();
           }}
         />
-        <p style="font-size:12px; opacity:0.7; margin-top:6px;">
+        <p style={{ fontSize: "12px", opacity: 0.7, marginTop: "6px" }}>
         🔒 Your numbers stay in your browser. Nothing is stored.
         </p>
         <small style={{ opacity: 0.6 }}>

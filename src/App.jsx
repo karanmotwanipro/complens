@@ -382,16 +382,12 @@ function App() {
     </div>
 
 
-    <p style={{ marginTop: "8px", fontSize: "14px", opacity: 0.75 }}>
-      <i>Over a 30-year career, that's about {careerMonthsSaved} months of your life.</i>
+    <p style={{ marginTop: "8px", fontSize: "14px", opacity: 0.9 }}>
+      <i>Over a 30-year career, this commute costs about <b>{careerMonthsSaved}</b> months of your life.</i>
     </p>
 
-    <p style={{ marginTop: "6px", fontSize: "13px", opacity: 0.6 }}>
-      That’s time you could spend with family, health, hobbies — or simply not sitting in traffic.
-    </p>
-
-    <p style={{ marginTop: "10px", fontSize: "12px", opacity: 0.55 }}>
-      If this surprised you, send this to a friend choosing between jobs.
+    <p style={{ marginTop: "6px", fontSize: "13px", opacity: 0.7 }}>
+      Time that could be spent with family, riding, traveling — or simply not sitting in traffic.
     </p>
 
   </div>

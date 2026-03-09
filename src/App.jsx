@@ -54,6 +54,11 @@ function JobCard({
         <small style={{ opacity: 0.6 }}>
         Dollars per year
         </small>
+
+        <p style={{ fontSize: "12px", opacity: 0.7, marginTop: "6px" }}>
+        🔒 Your numbers stay in your browser. Nothing is stored.
+        </p>
+
       </div>
 
       <div style={{ flex: 1 }}>
@@ -121,9 +126,7 @@ function JobCard({
             resetResults();
           }}
         />
-        <p style={{ fontSize: "12px", opacity: 0.7, marginTop: "6px" }}>
-        🔒 Your numbers stay in your browser. Nothing is stored.
-        </p>
+
         <small style={{ opacity: 0.6 }}>
         $ per day (gas, train, parking, Uber, etc.)
         </small>

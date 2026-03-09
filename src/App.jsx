@@ -34,36 +34,10 @@ function JobCard({
       <h2 style={{ margin: "0 0 8px 0" }}>{title}</h2>
 
       <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-      <div style={{ flex: 1 }}>
-        <label>💰 Salary</label>
-        <input style={{
-        width: "100%",
-        padding: "6px",
-        borderRadius: "6px",
-        border: "1px solid #374151",
-        outline: "none",
-        boxSizing: "border-box"
-        }}
-          type="number"
-          value={salary}
-          onChange={(e) => {
-            setSalary(e.target.value);
-            resetResults();
-          }}
-        />
-        <small style={{ opacity: 0.6 }}>
-        Dollars per year
-        </small>
-
-        <p style={{ fontSize: "12px", opacity: 0.7, marginTop: "6px" }}>
-        🔒 Your numbers stay in your browser. Nothing is stored.
-        </p>
-
-      </div>
 
       <div style={{ flex: 1 }}>
         <label>
-        ⏱ Daily commute time
+        ⏱ Total daily commute (round trip)
         </label>
         <input style={{
         width: "100%",
@@ -81,12 +55,10 @@ function JobCard({
           }}
         />
         <small style={{ opacity: 0.6 }}>
-        Enter minutes per day
+        Minutes spent commuting per workday
         </small>
       </div>
-    </div>
 
-    <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
       <div style={{ flex: 1 }}>
         <label>🏢 Office days per week</label>
         <input
@@ -107,35 +79,69 @@ function JobCard({
             ? "Fully Onsite"
             : `${officeDays} days in office`}
         </p>
-      </div>
+      
 
-      <div style={{ flex: 1 }}>
-        <label>🚗 Daily commute spending (optional)</label>
-        <input style={{
-        width: "100%",
-        padding: "6px",
-        borderRadius: "6px",
-        border: "1px solid #374151",
-        outline: "none",
-        boxSizing: "border-box"
+    </div>
+
+
+    </div>
+
+    <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
+
+    <div style={{ flex: 1 }}>
+      <label>💰 Salary</label>
+      <input style={{
+      width: "100%",
+      padding: "6px",
+      borderRadius: "6px",
+      border: "1px solid #374151",
+      outline: "none",
+      boxSizing: "border-box"
+      }}
+        type="number"
+        value={salary}
+        onChange={(e) => {
+          setSalary(e.target.value);
+          resetResults();
         }}
-          type="number"
-          value={dailyCost}
-          onChange={(e) => {
-            setDailyCost(e.target.value);
-            resetResults();
-          }}
-        />
+      />
+      <small style={{ opacity: 0.6 }}>
+      Dollars per year
+      </small>
 
-        <small style={{ opacity: 0.6 }}>
-        $ per day (gas, train, parking, Uber, etc.)
-        </small>
-      </div>
-      </div>
+      <p style={{ fontSize: "12px", opacity: 0.7, marginTop: "6px" }}>
+      🔒 Your numbers stay in your browser. Nothing is stored.
+      </p>
+    </div>
+
+    <div style={{ flex: 1 }}>
+      <label>🚗 Daily commute spending (optional)</label>
+      <input style={{
+      width: "100%",
+      padding: "6px",
+      borderRadius: "6px",
+      border: "1px solid #374151",
+      outline: "none",
+      boxSizing: "border-box"
+      }}
+        type="number"
+        value={dailyCost}
+        onChange={(e) => {
+          setDailyCost(e.target.value);
+          resetResults();
+        }}
+      />
+
+      <small style={{ opacity: 0.6 }}>
+      $ per day (gas, train, parking, Uber, etc.)
+      </small>
+    </div>
+
+  </div>
 
       <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
         <p style={{ flex: 1 }}>
-          Yearly commute hours: {yearlyCommuteHours.toFixed(1)}
+          Hours spent commuting per year: {yearlyCommuteHours.toFixed(1)}
         </p>
         <p style={{ flex: 1 }}>
           Days lost per year: {daysLost.toFixed(1)}
@@ -190,40 +196,51 @@ function App() {
   const [dailyCostA, setDailyCostA] = useState("");
   const [dailyCostB, setDailyCostB] = useState("");
 
-  const salaryNumberA = Number(salary) || 0;
-  const commuteNumberA = Number(commuteMinutes) || 0;
+  function calculateJob(salary, commuteMinutes, officeDays, dailyCost) {
+  const salaryNumber = Number(salary) || 0;
+  const commuteNumber = Number(commuteMinutes) || 0;
+  const officeDaysNumber = Number(officeDays) || 0;
+  const dailyCostNumber = Number(dailyCost) || 0;
 
-  const salaryNumberB = Number(salaryB) || 0;
-  const commuteNumberB = Number(commuteMinutesB) || 0;
+  const yearlyCommuteHours = (commuteNumber * officeDaysNumber * 52) / 60;
 
-  const officeDaysNumberA = Number(officeDaysA) || 0;
-  const officeDaysNumberB = Number(officeDaysB) || 0;
+  const hourlyRate = salaryNumber / 2080;
 
-  const dailyCostNumberA = Number(dailyCostA) || 0;
-  const dailyCostNumberB = Number(dailyCostB) || 0;
+  const yearlyDirectCost = dailyCostNumber * officeDaysNumber * 52;
 
-  const yearlyCommuteHoursA = (commuteNumberA * officeDaysNumberA * 52) / 60;
-  const yearlyCommuteHoursB = (commuteNumberB * officeDaysNumberB * 52) / 60;
+  const timeCost = yearlyCommuteHours * hourlyRate;
 
-  const hourlyRateA = salaryNumberA / 2080;
-  const hourlyRateB = salaryNumberB / 2080;
+  const commuteCost = timeCost + yearlyDirectCost;
 
-  const yearlyDirectCostA = dailyCostNumberA * officeDaysNumberA * 52;
-  const yearlyDirectCostB = dailyCostNumberB * officeDaysNumberB * 52;
+  const effectiveIncome = salaryNumber - commuteCost;
 
-  const timeCostA = yearlyCommuteHoursA * hourlyRateA;
-  const timeCostB = yearlyCommuteHoursB * hourlyRateB;
+  const daysLost = yearlyCommuteHours / 24;
 
-  const commuteCostA = timeCostA + yearlyDirectCostA;
-  const commuteCostB = timeCostB + yearlyDirectCostB;
+  return {
+    yearlyCommuteHours,
+    commuteCost,
+    effectiveIncome,
+    daysLost
+  };
+}
 
-  const effectiveIncomeA = salaryNumberA - commuteCostA;
-  const effectiveIncomeB = salaryNumberB - commuteCostB;
+
+  const jobA = calculateJob(salary, commuteMinutes, officeDaysA, dailyCostA);
+  const jobB = calculateJob(salaryB, commuteMinutesB, officeDaysB, dailyCostB);
+
+  const yearlyCommuteHoursA = jobA.yearlyCommuteHours;
+  const yearlyCommuteHoursB = jobB.yearlyCommuteHours;
+
+  const commuteCostA = jobA.commuteCost;
+  const commuteCostB = jobB.commuteCost;
+
+  const effectiveIncomeA = jobA.effectiveIncome;
+  const effectiveIncomeB = jobB.effectiveIncome;
 
   const incomeDelta = Math.abs(effectiveIncomeA - effectiveIncomeB);
 
-  const daysLostA = yearlyCommuteHoursA / 24;
-  const daysLostB = yearlyCommuteHoursB / 24;
+  const daysLostA = jobA.daysLost;
+  const daysLostB = jobB.daysLost;
 
   let winnerText = "";
   let comparisonMessage = "";
@@ -272,7 +289,8 @@ function App() {
     margin: 0,
     lineHeight: "1.4"
     }}>
-    Your commute might be stealing your life. <br />Compare two job options and see how much time and real income commuting actually costs you.
+    Your commute might be stealing years of your life. <br />
+    Compare two job options and see the hidden time cost of commuting.
     </h1>
 
 
@@ -386,11 +404,15 @@ function App() {
 
 
     <p style={{ marginTop: "8px", fontSize: "14px", opacity: 0.9 }}>
-      <i>Over a 30-year career, this commute costs about <b>{careerMonthsSaved}</b> months of your life.</i>
+    <i>Over a 30-year career, the difference between these jobs is about <b>{careerMonthsSaved}</b> months of your life.</i>
     </p>
 
     <p style={{ marginTop: "6px", fontSize: "13px", opacity: 0.7 }}>
-      Time that could be spent with family, riding, traveling — or simply not sitting in traffic.
+    Time that could be spent with family, riding, traveling — or simply not sitting in traffic.
+    </p>
+
+    <p style={{ marginTop: "6px", fontSize: "12px", opacity: 0.6 }}>
+    Most people underestimate commute impact by 3–5× over a career.
     </p>
 
   </div>

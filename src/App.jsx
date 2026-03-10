@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 
 function JobCard({
@@ -274,9 +275,25 @@ function App() {
   const isBWinner = showResults && effectiveIncomeB > effectiveIncomeA;
 
   const hoursSaved = Math.abs(yearlyCommuteHoursA - yearlyCommuteHoursB);
+
+  const daysSaved = Math.round(hoursSaved / 24);
+  const weeksSaved = Math.round(daysSaved / 7);
+  const monthsSaved = Math.round(daysSaved / 30);
+
+  let lifeUnitText = "";
+
+  if (weeksSaved < 1) {
+    lifeUnitText = `${daysSaved} extra days of life every year`;
+  } else if (weeksSaved <= 4) {
+    lifeUnitText = `${weeksSaved} extra weeks of life every year`;
+  } else {
+    lifeUnitText = `${monthsSaved} extra months of life every year`;
+  }
+
   const careerMonthsSaved = Math.round((hoursSaved * 30) / 24 / 30);
 
-  return (
+return (
+  <>
     <div style={{ fontFamily: "Arial", maxWidth: "1000px", margin: "0 auto", minHeight: "100vh" }}>
       <p style={{
         fontSize: "12px",
@@ -294,8 +311,7 @@ function App() {
         lineHeight: "1.4"
       }}>
         Your commute might be stealing years of your life. <br />
-        See the hidden time cost of your commute.
-        Compare job options if you want.
+        See the hidden time cost of commuting — and compare job options.
       </h1>
 
       <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", marginTop: "20px", textAlign: "left" }}>
@@ -421,19 +437,26 @@ function App() {
 
           </div>
 
-          <p style={{ marginTop: "8px", fontSize: "14px", opacity: 0.9 }}>
-            <i>Over a 30-year career, the difference between these jobs is about <b>{careerMonthsSaved}</b> months of your life.</i>
+          <div style={{ marginTop: "6px", fontWeight: "700", fontSize: "16px" }}>
+            {yearlyCommuteHoursA < yearlyCommuteHoursB
+              ? `≈ Choosing Job A gives you about ${lifeUnitText}`
+              : `≈ Choosing Job B gives you about ${lifeUnitText}`}
+          </div>
+
+          <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.75 }}>
+            <i>Over a 30-year career, that commute difference is about {careerMonthsSaved} months of your life — time that could be spent with family, traveling, or simply not sitting in traffic.</i>
           </p>
 
-          <p style={{ marginTop: "6px", fontSize: "13px", opacity: 0.7 }}>
-            Time you could spend with family, traveling, or simply not sitting in traffic. Most people never realize how much their commute costs them over a career.
-          </p>
 
         </div>
       )}
 
     </div>
-  );
+
+    <Analytics />
+
+    </>
+    );
 }
 
 export default App

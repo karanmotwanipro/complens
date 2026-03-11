@@ -199,7 +199,8 @@ function App() {
       return;
     }
     setValidationError("");
-    setShowResults(true);
+    setShowResults(true)
+    track("results_viewed")
   };
 
   const resetResults = () => {
@@ -447,7 +448,7 @@ return (
           </div>
 
           <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.75 }}>
-            <i>Over a 30-year career, that commute difference is about {careerMonthsSaved} months of your life — time that could be spent with family, traveling, or simply not sitting in traffic.</i>
+            <i>≈ Over a 30-year career, that's about {careerMonthsSaved} months of your life — time that could be spent with family, traveling, or simply not sitting in traffic.</i>
           </p>
 
 

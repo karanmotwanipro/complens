@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Analytics } from '@vercel/analytics/react'
+import { Analytics, track } from '@vercel/analytics/react'
 import './App.css'
 
 function JobCard({
@@ -362,7 +362,10 @@ return (
         {!showResults ? (
           <>
             <button
-              onClick={handleCompare}
+              onClick={() => {
+                track("compare_jobs_clicked");
+                handleCompare();
+              }}
               style={{
                 padding: "10px 22px",
                 fontSize: "16px",

@@ -48,7 +48,8 @@ function JobCard({
               width: "100%",
               padding: "6px",
               borderRadius: "6px",
-              border: "1px solid #374151",
+              border: "1px solid #d1d5db",
+              backgroundColor: "#f9fafb",
               outline: "none",
               boxSizing: "border-box"
             }}
@@ -98,7 +99,8 @@ function JobCard({
               width: "100%",
               padding: "6px",
               borderRadius: "6px",
-              border: "1px solid #374151",
+              border: "1px solid #d1d5db",
+              backgroundColor: "#f9fafb",
               outline: "none",
               boxSizing: "border-box"
             }}
@@ -129,7 +131,8 @@ function JobCard({
               width: "100%",
               padding: "6px",
               borderRadius: "6px",
-              border: "1px solid #374151",
+              border: "1px solid #d1d5db",
+              backgroundColor: "#f9fafb",
               outline: "none",
               boxSizing: "border-box"
             }}
@@ -179,6 +182,7 @@ function JobCard({
 function App() {
 
   const [showResults, setShowResults] = useState(false);
+  const [showJobB, setShowJobB] = useState(false);
   const [validationError, setValidationError] = useState("");
 
   const [salary, setSalary] = useState("");
@@ -187,20 +191,28 @@ function App() {
   const [salaryB, setSalaryB] = useState("");
   const [commuteMinutesB, setCommuteMinutesB] = useState("");
 
-  const [officeDaysA, setOfficeDaysA] = useState("5");
-  const [officeDaysB, setOfficeDaysB] = useState("5");
+  const [officeDaysA, setOfficeDaysA] = useState("3");
+  const [officeDaysB, setOfficeDaysB] = useState("3");
 
   const [dailyCostA, setDailyCostA] = useState("");
   const [dailyCostB, setDailyCostB] = useState("");
 
   const handleCompare = () => {
-    if (!salary || !salaryB || !commuteMinutes || !commuteMinutesB) {
-      setValidationError("Please fill in both job descriptions before comparing.");
+    if (!salary || !commuteMinutes) {
+      setValidationError("Please fill in your job details before continuing.");
+      return;
+    }
+    if (showJobB && (!salaryB || !commuteMinutesB)) {
+      setValidationError("Please fill in Job B details or remove it.");
       return;
     }
     setValidationError("");
-    setShowResults(true)
-    track("results_viewed")
+    setShowResults(true);
+    track("results_viewed");
+    setTimeout(() => {
+      const el = document.getElementById("results-section");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   const resetResults = () => {
@@ -213,12 +225,13 @@ function App() {
     setCommuteMinutes("");
     setSalaryB("");
     setCommuteMinutesB("");
-    setOfficeDaysA("5");
-    setOfficeDaysB("5");
+    setOfficeDaysA("3");
+    setOfficeDaysB("3");
     setDailyCostA("");
     setDailyCostB("");
     setShowResults(false);
     setValidationError("");
+    setShowJobB(false);
   };
 
   function calculateJob(salary, commuteMinutes, officeDays, dailyCost) {
@@ -312,7 +325,9 @@ return (
         lineHeight: "1.4"
       }}>
         Your commute might be stealing years of your life. <br />
-        See the hidden time cost of commuting — and compare job options.
+        {showJobB
+          ? "See the hidden time cost of commuting — and compare job options."
+          : "See the real cost of your commute in time, money, and life."}
       </h1>
 
       <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", marginTop: "20px", textAlign: "left" }}>
@@ -337,49 +352,97 @@ return (
           hasInput={!!(salary && commuteMinutes)}
         />
 
-        <JobCard
-          title="Job Option B"
-          salary={salaryB}
-          setSalary={setSalaryB}
-          commuteMinutes={commuteMinutesB}
-          setCommuteMinutes={setCommuteMinutesB}
-          officeDays={officeDaysB}
-          setOfficeDays={setOfficeDaysB}
-          yearlyCommuteHours={yearlyCommuteHoursB}
-          daysLost={daysLostB}
-          commuteCost={commuteCostB}
-          effectiveIncome={effectiveIncomeB}
-          isWinner={isBWinner}
-          dailyCost={dailyCostB}
-          setDailyCost={setDailyCostB}
-          resetResults={resetResults}
-          showResults={showResults}
-          hasInput={!!(salaryB && commuteMinutesB)}
-        />
+        {showJobB && (
+          <JobCard
+            title="Job Option B"
+            salary={salaryB}
+            setSalary={setSalaryB}
+            commuteMinutes={commuteMinutesB}
+            setCommuteMinutes={setCommuteMinutesB}
+            officeDays={officeDaysB}
+            setOfficeDays={setOfficeDaysB}
+            yearlyCommuteHours={yearlyCommuteHoursB}
+            daysLost={daysLostB}
+            commuteCost={commuteCostB}
+            effectiveIncome={effectiveIncomeB}
+            isWinner={isBWinner}
+            dailyCost={dailyCostB}
+            setDailyCost={setDailyCostB}
+            resetResults={resetResults}
+            showResults={showResults}
+            hasInput={!!(salaryB && commuteMinutesB)}
+          />
+        )}
 
       </div>
 
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         {!showResults ? (
           <>
-            <button
-              onClick={() => {
-                track("compare_jobs_clicked");
-                handleCompare();
-              }}
-              style={{
-                padding: "10px 22px",
-                fontSize: "16px",
-                borderRadius: "8px",
-                border: "none",
-                cursor: "pointer",
-                backgroundColor: "#22c55e",
-                color: "white",
-                fontWeight: "600",
-              }}
-            >
-              Compare Jobs
-            </button>
+            <div style={{ display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
+              <button
+                onClick={() => {
+                  track("compare_jobs_clicked");
+                  handleCompare();
+                }}
+                style={{
+                  padding: "10px 22px",
+                  fontSize: "16px",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: "pointer",
+                  backgroundColor: "#22c55e",
+                  color: "white",
+                  fontWeight: "600",
+                }}
+              >
+                {showJobB ? "Compare Jobs" : "Calculate"}
+              </button>
+
+              {!showJobB ? (
+                <button
+                  onClick={() => {
+                    setShowJobB(true);
+                    resetResults();
+                  }}
+                  style={{
+                    padding: "10px 22px",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    border: "2px solid #22c55e",
+                    cursor: "pointer",
+                    backgroundColor: "transparent",
+                    color: "#22c55e",
+                    fontWeight: "600",
+                  }}
+                >
+                  + Add another job
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setShowJobB(false);
+                    setSalaryB("");
+                    setCommuteMinutesB("");
+                    setOfficeDaysB("3");
+                    setDailyCostB("");
+                    resetResults();
+                  }}
+                  style={{
+                    padding: "10px 22px",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    border: "2px solid #dc2626",
+                    cursor: "pointer",
+                    backgroundColor: "transparent",
+                    color: "#dc2626",
+                    fontWeight: "600",
+                  }}
+                >
+                  − Remove Job B
+                </button>
+              )}
+            </div>
 
             {validationError && (
               <p style={{
@@ -411,49 +474,66 @@ return (
         )}
       </div>
 
-      {showResults && winnerText && (
-        <div style={{
-          marginTop: "16px",
-          textAlign: "center",
-          animation: "fadeIn 0.25s ease"
-        }}>
+      {showResults && (
+      <div id="results-section" style={{
+        marginTop: "16px",
+        textAlign: "center",
+        animation: "fadeIn 0.25s ease"
+      }}>
 
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "40px",
-            flexWrap: "wrap",
-            fontSize: "18px",
-            fontWeight: "600"
-          }}>
+        {!showJobB ? (
+          // Single job results
+          <div>
+            <div style={{ fontSize: "18px", fontWeight: "700", marginBottom: "8px" }}>
+              ⏱ Your commute costs you {yearlyCommuteHoursA.toFixed(0)} hours a year
+            </div>
+            <div style={{ fontSize: "18px", fontWeight: "600", marginBottom: "8px" }}>
+              💰 That's ${commuteCostA.toLocaleString(undefined, {maximumFractionDigits: 0})} in real cost — your effective income is ${effectiveIncomeA.toLocaleString(undefined, {maximumFractionDigits: 0})}
+            </div>
+            <div style={{ fontWeight: "700", fontSize: "16px", marginBottom: "8px" }}>
+              ≈ {daysLostA.toFixed(1)} days of your life lost to commuting every year
+            </div>
+            <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.75 }}>
+              <i>≈ Over a 30-year career, that's about {Math.round((yearlyCommuteHoursA * 30) / 24 / 30)} months of your life — time that could be spent with family, traveling, or simply not sitting in traffic.</i>
+            </p>
+          </div>
+        ) : (
+          // Two job comparison results
+          <div>
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "40px",
+              flexWrap: "wrap",
+              fontSize: "18px",
+              fontWeight: "600"
+            }}>
+              <div style={{ fontWeight: "700" }}>
+                {yearlyCommuteHoursA < yearlyCommuteHoursB
+                  ? `⏱ Job A gives you ${hoursSaved.toFixed(0)} hours of your life back`
+                  : `⏱ Job B gives you ${hoursSaved.toFixed(0)} hours of your life back`}
+              </div>
+              <div>
+                {effectiveIncomeA > effectiveIncomeB
+                  ? `💰 Job A nets you $${incomeDelta.toLocaleString()} more per year`
+                  : `💰 Job B nets you $${incomeDelta.toLocaleString()} more per year`}
+              </div>
+            </div>
 
-            <div style={{ fontWeight: "700" }}>
+            <div style={{ marginTop: "6px", fontWeight: "700", fontSize: "16px" }}>
               {yearlyCommuteHoursA < yearlyCommuteHoursB
-                ? `⏱ Job A gives you ${hoursSaved.toFixed(0)} hours of your life back`
-                : `⏱ Job B gives you ${hoursSaved.toFixed(0)} hours of your life back`}
+                ? `≈ Choosing Job A gives you about ${lifeUnitText}`
+                : `≈ Choosing Job B gives you about ${lifeUnitText}`}
             </div>
 
-            <div>
-              {effectiveIncomeA > effectiveIncomeB
-                ? `💰 Job A nets you $${incomeDelta.toLocaleString()} more per year`
-                : `💰 Job B nets you $${incomeDelta.toLocaleString()} more per year`}
-            </div>
-
+            <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.75 }}>
+              <i>≈ Over a 30-year career, that's about {careerMonthsSaved} months of your life — time that could be spent with family, traveling, or simply not sitting in traffic.</i>
+            </p>
           </div>
+        )}
 
-          <div style={{ marginTop: "6px", fontWeight: "700", fontSize: "16px" }}>
-            {yearlyCommuteHoursA < yearlyCommuteHoursB
-              ? `≈ Choosing Job A gives you about ${lifeUnitText}`
-              : `≈ Choosing Job B gives you about ${lifeUnitText}`}
-          </div>
-
-          <p style={{ marginTop: "6px", fontSize: "14px", opacity: 0.75 }}>
-            <i>≈ Over a 30-year career, that's about {careerMonthsSaved} months of your life — time that could be spent with family, traveling, or simply not sitting in traffic.</i>
-          </p>
-
-
-        </div>
-      )}
+  </div>
+)}
 
     </div>
 

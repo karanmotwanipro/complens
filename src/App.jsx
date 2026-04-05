@@ -50,6 +50,7 @@ function JobCard({
               borderRadius: "6px",
               border: "1px solid #d1d5db",
               backgroundColor: "#f9fafb",
+              color: "#222",
               outline: "none",
               boxSizing: "border-box"
             }}
@@ -101,6 +102,7 @@ function JobCard({
               borderRadius: "6px",
               border: "1px solid #d1d5db",
               backgroundColor: "#f9fafb",
+              color: "#222",
               outline: "none",
               boxSizing: "border-box"
             }}
@@ -133,6 +135,7 @@ function JobCard({
               borderRadius: "6px",
               border: "1px solid #d1d5db",
               backgroundColor: "#f9fafb",
+              color: "#222",
               outline: "none",
               boxSizing: "border-box"
             }}

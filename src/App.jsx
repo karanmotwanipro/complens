@@ -394,8 +394,8 @@ return (
                   borderRadius: "8px",
                   border: "none",
                   cursor: "pointer",
-                  backgroundColor: "#22c55e",
-                  color: "white",
+                  backgroundColor: "white",
+                  color: "#222222",
                   fontWeight: "600",
                 }}
               >
@@ -412,10 +412,10 @@ return (
                     padding: "10px 22px",
                     fontSize: "16px",
                     borderRadius: "8px",
-                    border: "2px solid #22c55e",
+                    border: "2px solid white",
                     cursor: "pointer",
                     backgroundColor: "transparent",
-                    color: "#22c55e",
+                    color: "white",
                     fontWeight: "600",
                   }}
                 >
